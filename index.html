@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080b12" />
+  <meta name="description" content="SpellCheck explains Magic cards in beginner-friendly language." />
+  <title>SpellCheck — understand the card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="SpellCheck home">
+        <span class="sigil">✦</span>
+        <span>SpellCheck</span>
+      </a>
+      <button class="icon-btn" id="historyBtn" aria-label="Open recent cards">⌛</button>
+    </header>
+
+    <section id="captureView" class="view active">
+      <div class="intro">
+        <p class="eyebrow">Your pocket rules guide</p>
+        <h1>Point. Name.<br><span>Understand.</span></h1>
+        <p>Photograph any Magic card, enter its name, and get the part the card does not tell a new player.</p>
+      </div>
+
+      <div class="scanner-card">
+        <div class="preview-wrap" id="previewWrap">
+          <div class="corners" aria-hidden="true"></div>
+          <div class="empty-state" id="emptyState">
+            <div class="rune">◈</div>
+            <strong>Place one card in frame</strong>
+            <span>Good light. Minimal glare. Full card visible.</span>
+          </div>
+          <img id="photoPreview" alt="Your photographed Magic card" hidden />
+        </div>
+        <label class="primary-btn camera-btn">
+          <span>◉</span><span id="cameraLabel">Open camera</span>
+          <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden />
+        </label>
+      </div>
+
+      <section id="identifyPanel" class="identify-panel" hidden>
+        <div class="step-label"><span>2</span> Name the card</div>
+        <p class="hint">Type what you can read at the top. SpellCheck will find the closest match.</p>
+        <div class="search-box">
+          <input id="cardName" type="search" inputmode="search" autocomplete="off" placeholder="e.g. Lightning Greaves" aria-label="Card name" />
+          <button id="clearSearch" type="button" aria-label="Clear card name">×</button>
+        </div>
+        <div id="suggestions" class="suggestions" role="listbox"></div>
+        <button id="explainBtn" class="primary-btn" disabled>Explain this card <span>→</span></button>
+        <button id="retakeBtn" class="text-btn">↻ Retake photo</button>
+      </section>
+      <button id="skipPhotoBtn" class="ghost-btn">No photo? Search by name instead</button>
+    </section>
+
+    <section id="loadingView" class="view loading-view" aria-live="polite">
+      <div class="orb"><i></i><i></i><i></i></div>
+      <h2>Reading the spell…</h2>
+      <p>Translating card text into table talk.</p>
+    </section>
+
+    <section id="resultView" class="view">
+      <div class="result-head">
+        <button id="backBtn" class="icon-btn" aria-label="Scan another card">←</button>
+        <span class="result-brand">SpellCheck</span>
+        <button id="shareBtn" class="icon-btn" aria-label="Share explanation">↗</button>
+      </div>
+      <article id="resultContent"></article>
+      <div class="result-actions">
+        <button id="wrongBtn" class="secondary-btn">Wrong card? Retake</button>
+        <button id="anotherBtn" class="primary-btn">Explain another card</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="historyDialog">
+    <div class="dialog-head"><h2>Recent spells</h2><button id="closeHistory" class="icon-btn">×</button></div>
+    <div id="historyList"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <footer>Card data and images from Scryfall. SpellCheck is unofficial Fan Content permitted under the Wizards of the Coast Fan Content Policy. Not approved or endorsed by Wizards.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
