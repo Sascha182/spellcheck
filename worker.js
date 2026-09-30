@@ -67,7 +67,12 @@ Example:
         const text =
           gemini?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        const result = JSON.parse(text);
+       const cleaned = text
+  .replace(/```json/g, "")
+  .replace(/```/g, "")
+  .trim();
+
+const result = JSON.parse(cleaned);
 
         return Response.json(result);
 
