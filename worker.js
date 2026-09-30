@@ -1,62 +1,45 @@
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
 
-    if (url.pathname === "/api/identify") {
-      try {
-        const geminiApiKey =
+    try {
+
+      const url = new URL(request.url);
+
+      if (url.pathname === "/api/identify") {
+
+        const key =
           await env.GEMINI_API_KEY.get();
 
-        if (!geminiApiKey) {
-          return Response.json({
-            success: false,
-            stage: "secret",
-            error: "Gemini key is unavailable"
-          });
-        }
-
-        const geminiResponse = await fetch(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": geminiApiKey
-            },
-            body: JSON.stringify({
-              contents: [
-                {
-                  parts: [
-                    {
-                      text:
-                        "Reply with exactly the words: Gemini connection works"
-                    }
-                  ]
-                }
-              ]
-            })
-          }
-        );
-
-        const geminiData =
-          await geminiResponse.json();
-
         return Response.json({
-          success: geminiResponse.ok,
-          gemini_status: geminiResponse.status,
-          gemini_response: geminiData
+          success: true,
+          key_exists: !!key,
+          method: request.method
         });
-      } catch (error) {
-        return Response.json({
-          success: false,
-          stage: "worker",
+
+      }
+
+      return env.ASSETS.fetch(request);
+
+    } catch (error) {
+
+      return new Response(
+        JSON.stringify({
+          crash: true,
           error:
             error?.message ||
-            String(error)
-        });
-      }
+            String(error),
+          stack:
+            error?.stack || null
+        }),
+        {
+          headers: {
+            "Content-Type":
+              "application/json"
+          }
+        }
+      );
+
     }
 
-    return env.ASSETS.fetch(request);
   }
-};
+}
