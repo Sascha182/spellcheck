@@ -6,10 +6,14 @@ export default {
       request.method === "POST" &&
       url.pathname === "/api/identify"
     ) {
+
       return Response.json({
-        card_name: "Sol Ring",
-        confidence: 99
+        gemini_key_exists: !!env.GEMINI_API_KEY,
+        key_length: env.GEMINI_API_KEY
+          ? env.GEMINI_API_KEY.length
+          : 0
       });
+
     }
 
     return env.ASSETS.fetch(request);
