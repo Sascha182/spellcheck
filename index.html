@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f3eee4">
+  <meta name="description" content="SpellCheck is a field guide to Magic cards for new players.">
+  <title>SpellCheck — A Field Guide to Magic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section id="home" class="screen active">
+      <header class="masthead">
+        <a class="wordmark" href="#" aria-label="SpellCheck home">SpellCheck</a>
+        <button id="archiveBtn" class="text-button">Field notes</button>
+      </header>
+
+      <div class="hero-rule"></div>
+      <section class="hero">
+        <p class="folio">A field guide to Magic</p>
+        <h1>Understand any<br>Magic card.</h1>
+        <p class="deck">Photograph a card and learn what it means, when to play it, and how experienced players use it.</p>
+      </section>
+
+      <section class="museum-frame">
+        <div class="mount">
+          <div class="specimen-placeholder" aria-hidden="true">
+            <span class="crest">S</span>
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+          </div>
+        </div>
+        <div class="plaque">
+          <span>No. 001</span>
+          <p>Place one card before the camera.</p>
+        </div>
+      </section>
+
+      <button id="cameraBtn" class="primary-button">Photograph a card <span>→</span></button>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      <p class="privacy-note">The photograph is used only to identify the card.</p>
+    </section>
+
+    <section id="preview" class="screen">
+      <header class="section-head"><button class="round-button" data-home aria-label="Back">←</button><span>Photograph</span><i>01</i></header>
+      <div class="photo-mount">
+        <img id="photo" alt="Photographed Magic card">
+        <div class="photo-border"></div>
+      </div>
+      <p class="caption"><span>Fig. 1</span> Ensure the full card and its title are visible.</p>
+      <button id="identifyBtn" class="primary-button">Identify this card <span>→</span></button>
+      <button id="retakeBtn" class="secondary-button">Take another photograph</button>
+    </section>
+
+    <section id="analysing" class="screen centred">
+      <div class="seal-loader"><span>S</span><i></i></div>
+      <p class="folio">Consulting the collection</p>
+      <h2>Identifying<br>the card.</h2>
+      <p class="quiet">Examining the title, artwork and printed frame.</p>
+    </section>
+
+    <section id="setup" class="screen">
+      <header class="section-head"><button class="round-button" data-home aria-label="Back">←</button><span>Identification</span><i>02</i></header>
+      <div class="notice-card">
+        <p class="folio">The visual catalogue is not connected</p>
+        <h2>One final connection is required.</h2>
+        <p>The camera journey is complete. A secure Gemini endpoint still needs to be added before SpellCheck can identify real cards from photographs.</p>
+      </div>
+      <div class="catalogue-note">
+        <span>Next</span>
+        <ol>
+          <li>Store the Gemini API key securely in Cloudflare.</li>
+          <li>Connect the existing <code>/api/identify</code> endpoint.</li>
+          <li>Photograph a card and receive a real match.</li>
+        </ol>
+      </div>
+      <button id="demoBtn" class="primary-button">Preview with a collection sample <span>→</span></button>
+      <button class="secondary-button" data-home>Return to the entrance</button>
+    </section>
+
+    <section id="confirm" class="screen">
+      <header class="section-head"><button id="confirmBack" class="round-button" aria-label="Back">←</button><span>Identified card</span><i>02</i></header>
+      <p class="folio">Please verify the catalogue record</p>
+      <h2 class="large-title">Is this your card?</h2>
+      <article class="identified-card">
+        <div class="card-mount"><img id="matchedImage" alt="Identified Magic card"></div>
+        <div class="identity-plaque">
+          <span id="confidence">Collection sample</span>
+          <h3 id="matchedName">Lightning Greaves</h3>
+          <p id="matchedType">Artifact — Equipment</p>
+        </div>
+      </article>
+      <button id="yesBtn" class="primary-button">Yes, that is correct <span>→</span></button>
+      <button id="noBtn" class="secondary-button">No, try another photograph</button>
+    </section>
+
+    <section id="result" class="screen">
+      <header class="section-head"><button class="round-button" data-home aria-label="Close">×</button><span>Collection notes</span><button id="shareBtn" class="round-button" aria-label="Share">↗</button></header>
+      <article class="result-object">
+        <div class="result-mount"><img id="resultImage" alt="Magic card"></div>
+        <p class="object-number">Object <span id="objectNumber">001</span></p>
+        <h1 id="resultName">Lightning Greaves</h1>
+        <p id="resultType" class="type-line">Artifact — Equipment</p>
+        <blockquote id="collectionNote">A widely used protection piece that lets an important creature act at once.</blockquote>
+      </article>
+      <div id="explanation"></div>
+      <button id="anotherBtn" class="primary-button">Study another card <span>→</span></button>
+    </section>
+  </main>
+
+  <dialog id="archiveDialog">
+    <header><div><p class="folio">Personal collection</p><h2>Field notes</h2></div><button id="closeArchive" class="round-button">×</button></header>
+    <div id="archiveList"></div>
+  </dialog>
+
+  <div id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
