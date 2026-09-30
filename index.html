@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#d9ff3f">
+  <meta name="description" content="SpellCheck identifies Magic cards and explains them in plain English.">
+  <title>SpellCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <main class="app">
+    <section id="home" class="screen active">
+      <nav>
+        <a class="logo" href="#" aria-label="SpellCheck home"><span>✦</span> SPELLCHECK</a>
+        <button id="aboutBtn" class="round" aria-label="About SpellCheck">?</button>
+      </nav>
+
+      <div class="hero">
+        <div class="sticker">MTG, BUT MAKE IT EASY</div>
+        <h1>SNAP.<br><span>CHECK.</span><br>PLAY.</h1>
+        <p>Take a picture of any Magic card. SpellCheck finds it, checks it with you, then explains what it actually does.</p>
+      </div>
+
+      <div class="capture-card">
+        <div class="card-ghost" aria-hidden="true">
+          <div class="orbital"></div>
+          <span>✦</span>
+        </div>
+        <button id="cameraBtn" class="cta">
+          <span class="cta-icon">⌁</span>
+          <span><b>TAKE A PICTURE</b><small>Use your phone camera</small></span>
+          <i>→</i>
+        </button>
+        <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      </div>
+
+      <div class="micro-row"><span>NO ACCOUNT</span><span>NO DECK KNOWLEDGE</span><span>NO JUDGEMENT</span></div>
+    </section>
+
+    <section id="preview" class="screen">
+      <header class="subhead"><button class="back" data-home>←</button><span>01 / CAPTURE</span><i></i></header>
+      <div class="preview-shell">
+        <img id="photo" alt="Photographed Magic card">
+        <div class="scanline"></div>
+        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+      </div>
+      <div class="instruction"><span>TIP</span><p>Make sure the full card is visible and the title is readable.</p></div>
+      <button id="identifyBtn" class="cta solid"><span><b>IDENTIFY THIS CARD</b><small>Powered by Gemini Vision</small></span><i>→</i></button>
+      <button id="retakeBtn" class="secondary">RETAKE</button>
+    </section>
+
+    <section id="analysing" class="screen centre">
+      <div class="loader"><span>✦</span><i></i><i></i></div>
+      <p class="kicker">VISION ONLINE</p>
+      <h2>LOOKING AT<br>YOUR CARD<span>...</span></h2>
+      <p id="analysisStatus">Reading the name, art and card frame.</p>
+    </section>
+
+    <section id="setup" class="screen">
+      <header class="subhead"><button class="back" data-home>←</button><span>VISION SETUP</span><i></i></header>
+      <div class="system-card warning">
+        <span class="status-dot"></span>
+        <small>GEMINI CONNECTION</small>
+        <h2>NOT CONNECTED YET</h2>
+        <p>The photo flow is ready. The secure Gemini endpoint still needs to be connected before real card identification can work.</p>
+      </div>
+      <div class="next-box">
+        <b>WHAT HAPPENS NEXT</b>
+        <ol><li>Add the Gemini API key securely in Cloudflare</li><li>Connect the identification endpoint</li><li>Take a photo and receive a real match</li></ol>
+      </div>
+      <button id="demoBtn" class="cta solid"><span><b>PREVIEW THE NEXT STEP</b><small>Use Lightning Greaves as a UI demo</small></span><i>→</i></button>
+      <button class="secondary" data-home>BACK HOME</button>
+    </section>
+
+    <section id="confirm" class="screen">
+      <header class="subhead"><button class="back" id="confirmBack">←</button><span>02 / VERIFY</span><i></i></header>
+      <p class="kicker">MATCH FOUND</p>
+      <h2 class="question">IS THIS<br>YOUR CARD?</h2>
+      <div class="match-card">
+        <img id="matchedImage" alt="Matched Magic card">
+        <div><span id="confidence">DEMO MATCH</span><h3 id="matchedName">Lightning Greaves</h3><p id="matchedType">Artifact — Equipment</p></div>
+      </div>
+      <button id="yesBtn" class="cta solid"><span><b>YES, EXPLAIN IT</b><small>Show me how it works</small></span><i>→</i></button>
+      <button id="noBtn" class="secondary">NO, RETAKE</button>
+    </section>
+
+    <section id="result" class="screen">
+      <header class="subhead"><button class="back" data-home>×</button><span>03 / EXPLAIN</span><button id="shareBtn" class="share">↗</button></header>
+      <div class="result-hero">
+        <img id="resultImage" alt="Magic card">
+        <div><span class="pill">SPELLCHECKED</span><h2 id="resultName">Lightning Greaves</h2><p id="resultType">Artifact — Equipment</p></div>
+      </div>
+      <div id="explanation"></div>
+      <button id="anotherBtn" class="cta solid"><span><b>CHECK ANOTHER CARD</b></span><i>→</i></button>
+    </section>
+  </main>
+
+  <dialog id="aboutDialog"><button id="closeAbout">×</button><span class="sticker">HELLO, PLANESWALKER</span><h2>MAGIC WITHOUT THE MYSTERY.</h2><p>SpellCheck is a beginner-friendly card companion. It focuses on how, when and why to use a card rather than repeating the basics.</p></dialog>
+  <div id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
