@@ -3,20 +3,17 @@ export default {
 
     const url = new URL(request.url);
 
-    if (
-      request.method === "POST" &&
-      url.pathname === "/api/identify"
-    ) {
+    if (url.pathname === "/api/identify") {
 
       try {
 
-        const geminiApiKey =
+        const key =
           await env.GEMINI_API_KEY.get();
 
         return Response.json({
           success: true,
-          key_exists: !!geminiApiKey,
-          key_length: geminiApiKey.length
+          key_exists: !!key,
+          method: request.method
         });
 
       } catch (error) {
@@ -33,4 +30,4 @@ export default {
     return env.ASSETS.fetch(request);
 
   }
-}
+};
