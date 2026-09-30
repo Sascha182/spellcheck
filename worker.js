@@ -3,12 +3,17 @@ export default {
 
     const url = new URL(request.url);
 
-    if (
-      request.method === "POST" &&
-      url.pathname === "/api/identify"
-    ) {
+  if (
+  request.method === "POST" &&
+  url.pathname === "/api/identify"
+) {
 
-      try {
+  return Response.json({
+    card_name: "Sol Ring",
+    confidence: 99
+  });
+
+}
 
         const imageBuffer = await request.arrayBuffer();
 
