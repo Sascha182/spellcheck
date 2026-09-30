@@ -5,3 +5,8 @@ compatibility_date = "2026-09-30"
 
 [assets]
 directory = "."
+
+[[secrets_store_secrets]]
+binding = "GEMINI_API_KEY"
+store_id = "8df87c3598c34c80883a7acd6a2dfda0"
+secret_name = "GEMINI_API_KEY"
