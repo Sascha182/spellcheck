@@ -10,7 +10,11 @@ $('#cameraBtn').onclick=openCamera;$('#retakeBtn').onclick=openCamera;$('#noBtn'
 $('#cameraInput').onchange=e=>{const file=e.target.files?.[0];if(!file)return;if(photoURL)URL.revokeObjectURL(photoURL);photoURL=URL.createObjectURL(file);$('#photo').src=photoURL;show('preview')};
 document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>show('home'));
 $('#confirmBack').onclick=()=>show('preview');
-$('#identifyBtn').onclick=async()=>{show('analysing');try{const file=$('#cameraInput').files[0];const response=await fetch('/api/identify',{method:'POST',headers:{'Content-Type':file.type||'image/jpeg'},body:await file.arrayBuffer()});if(!response.ok)throw new Error('not connected');const match=await response.json();if(!match.card_name)throw new Error('no match');const card=await lookup(match.card_name);if(!card)throw new Error('not found');currentCard=normalise(card,match.confidence);fillConfirm(currentCard);show('confirm')}catch(e){setTimeout(()=>show('setup'),500)}};
+$('#identifyBtn').onclick=async()=>{show('analysing');try{const file=$('#cameraInput').files[0];const response=await fetch('/api/identify',{method:'POST',headers:{'Content-Type':file.type||'image/jpeg'},body:await file.arrayBuffer()});if(!response.ok)throw new Error('not connected');const match=await response.json();if(!match.card_name)throw new Error('no match');const card=await lookup(match.card_name);if(!card)throw new Error('not found');currentCard=normalise(card,match.confidence);fillConfirm(currentCard);show('confirm')}catch(e){
+console.error(e);
+alert(e.message);
+setTimeout(()=>show('setup'),500)
+}};
 async function lookup(name){try{const r=await fetch('https://api.scryfall.com/cards/named?fuzzy='+encodeURIComponent(name));return r.ok?await r.json():null}catch(e){return null}}
 function normalise(c,confidence){const text=(c.card_faces||[c]).map(f=>f.oracle_text||'').filter(Boolean).join('\n—\n');return{name:c.name,type_line:c.type_line,image:c.image_uris?.normal||c.card_faces?.[0]?.image_uris?.normal||'',oracle:text,confidence:Number(confidence)||null,keywords:detect(text)}}
 function detect(text){const low=text.toLowerCase();return Object.entries(definitions).filter(([k])=>low.includes(k)).map(([k,v])=>[title(k),v])}
