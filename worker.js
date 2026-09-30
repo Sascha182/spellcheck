@@ -1,45 +1,39 @@
 export default {
   async fetch(request, env) {
 
-    try {
+    const url = new URL(request.url);
 
-      const url = new URL(request.url);
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/identify"
+    ) {
 
-      if (url.pathname === "/api/identify") {
+      try {
 
-        const key =
-          await env.GEMINI_API_KEY.get();
+        const imageBuffer =
+          await request.arrayBuffer();
 
         return Response.json({
           success: true,
-          key_exists: !!key,
-          method: request.method
+          image_size: imageBuffer.byteLength,
+          content_type:
+            request.headers.get("content-type")
+        });
+
+      } catch (error) {
+
+        return Response.json({
+          success: false,
+          error:
+            error?.message ||
+            String(error)
         });
 
       }
 
-      return env.ASSETS.fetch(request);
-
-    } catch (error) {
-
-      return new Response(
-        JSON.stringify({
-          crash: true,
-          error:
-            error?.message ||
-            String(error),
-          stack:
-            error?.stack || null
-        }),
-        {
-          headers: {
-            "Content-Type":
-              "application/json"
-          }
-        }
-      );
-
     }
+
+    return env.ASSETS.fetch(request);
 
   }
 }
